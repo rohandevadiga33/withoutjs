@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Management System</title>
+<style>
+    /* Your CSS styles here */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffe3e3;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1000px;
+        margin: 20px auto;
+    }
+    .teacher-form, .search-container, .delete-container {
+        margin-top: 180px;
+        margin-bottom: 50px;
+        flex: 0 0 30%;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        border: 2px solid #8b8586; /* Red border */
+    }
+    h2 {
+        color: #333333;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        color: #555555;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="date"],
+    .form-group input[type="number"],
+    .form-group input[type="email"],
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-group button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .search-result, .delete-search-result {
+        margin-top: 20px;
+    }
+    .search-result p, .delete-search-result p {
+        margin-bottom: 5px;
+        color: #333333;
+    }
+    .search-result button, .delete-search-result button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .update-btn {
+        background-color: #28a745;
+        margin-top: 10px;
+    }
+
+    /* Header styles */
+    .header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    
+    .header img {
+        height: 70px;
+        vertical-align: middle;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+    
+    .header h1 {
+        margin: 0;
+        padding: 0;
+        font-size: 24px;
+        margin-right: 10px;
+    }
+    
+    .header p {
+        margin: 5px 0 0;
+        padding: 0;
+        font-size: 18px;
+        opacity: 0.7;
+    }
+
+    /* Navbar styles */
+    .navbar {
+        background-color: #333;
+        position: fixed;
+        width: 100%;
+        top: 100px;
+    }
+
+    .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .navbar li {
+        float: left;
+    }
+
+    .navbar li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    .navbar li a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    .dropdown {
+        float: left;
+        overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        margin: 0;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        min-width: 160px;
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    h2 {
+        font-size: 40px;
+        margin-left: 20px;
+    }
+    
+    p {
+        top: 140px;
+    }
+
+    /* Footer styles */
+    /* Styles for the footer */
+.footer {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Text color */
+  padding: 20px; /* Padding for the footer */
+  text-align: center; /* Center align text */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space elements evenly */
+  align-items: center; /* Center align vertically */
+}
+
+.footer p {
+  margin: 10px 0; /* Margin for each paragraph */
+}
+
+.footer a {
+  color: #fff; /* Link color */
+  text-decoration: none; /* Remove underline */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.footer .affiliation img {
+  width: 100px; /* Adjust size of affiliation image */
+}
+
+.footer .social-links a {
+  display: inline-block; /* Display links inline */
+  margin: 0 10px; /* Margin between links */
+}
+
+.footer .social-links img {
+  width: 30px; /* Adjust size of social media icons */
+  height: 30px;
+  border-radius: 50%; /* Make icons round */
+}
+
+.copy-right {
+  color: #fff; /* Text color */
+  font-size: 14px; /* Font size */
+  margin-top: 20px; /* Margin from the top */
+  position: absolute; /* Position absolutely */
+  bottom: 0; /* Place at the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+    <img src="logo.png" alt="College Logo">
+    <div>
+        <h1>Dr TMA Pai Polytechnic</h1>
+        <p>A unit of Dr. TMA Pai Foundation, Manipal</p>
+    </div>
+</div>
+
+<div class="navbar">
+    <ul>
+        <li><a href="adminonly.html">Home</a></li>
+        <li><a href="about.html" onclick="return confirmLogout()">About</a></li>
+        <li><a href="courses.html" onclick="return confirmLogout()">Courses</a></li>
+        <li><a href="admision.html" onclick="return confirmLogout()">Admission</a></li>
+        <li><a href="result.html" onclick="return confirmLogout()">Results</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropbtn">Students Section</a>
+            <div class="dropdown-content">
+                <a href="addstudent.html">Manage Student</a>
+                <a href="updatefees.html">Update Fees</a>
+            </div>
+        </li>
+        <li><a href="addteacher.html" >Teachers Section</a></li>
+        <li><a href="index.html" style="color: red;" onclick="return confirmLogout()">Logout</a></li>
+    </ul>
+</div>
+
+<!-- Your remaining HTML content -->
+
+<div class="container">
+    <div class="teacher-form">
+        <h2>Add Teacher</h2>
+        <form id="addTeacherForm" onsubmit="addTeacher(); return false;">
+            <div class="form-group">
+                <label for="teacherId">Teacher ID:</label>
+                <input type="text" id="teacherId" name="teacherId" required>
+            </div>
+            <div class="form-group">
+                <label for="teacherName">Teacher Name:</label>
+                <input type="text" id="teacherName" name="teacherName" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <label for="dateOfJoining">Date of Joining:</label>
+                <input type="date" id="dateOfJoining" name="dateOfJoining" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add Teacher</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="search-container">
+        <h2>Search Teacher</h2>
+        <div class="form-group">
+            <label for="searchTeacherId">Search by Teacher ID:</label>
+            <input type="text" id="searchTeacherId" required>
+            <button onclick="searchTeacher()">Search</button>
+        </div>
+        <div class="search-result" id="searchResult">
+            <!-- Search result will be displayed here -->
+        </div>
+    </div>
+
+    <div class="delete-container">
+        <h2>Delete Teacher</h2>
+        <div class="form-group">
+            <label for="deleteTeacherId">Search by Teacher ID:</label>
+            <input type="text" id="deleteTeacherId" required>
+            <button onclick="searchDeleteTeacher()">Search</button>
+        </div>
+        <div class="delete-search-result" id="deleteSearchResult">
+            <!-- Delete search result will be displayed here -->
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function addTeacher() {
+        // Get form values
+        var teacherId = document.getElementById("teacherId").value;
+        var teacherName = document.getElementById("teacherName").value;
+        var dob = document.getElementById("dob").value;
+        var address = document.getElementById("address").value;
+        var branch = document.getElementById("branch").value;
+        var dateOfJoining = document.getElementById("dateOfJoining").value;
+
+        // Add teacher data submission logic here (for example, using AJAX to send data to server)
+
+        // Show success message
+        alert("Teacher added successfully!");
+
+        // Clear input fields
+        document.getElementById("teacherId").value = "";
+        document.getElementById("teacherName").value = "";
+        document.getElementById("dob").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("branch").value = "";
+        document.getElementById("dateOfJoining").value = "";
+    }
+
+    function searchTeacher() {
+        var teacherId = document.getElementById("searchTeacherId").value;
+
+        // Simulated teacher data - replace this with your backend logic to fetch actual teacher data
+        var teacherData = {
+            teacherId: "1",
+            name: "John Doe",
+            dob: "1990-01-01",
+            address: "123 Main Street",
+            branch: "Computer Science",
+            dateOfJoining: "2020-01-01"
+        };
+
+        if (teacherId === teacherData.teacherId) {
+            // Display teacher details if the teacher ID matches
+            document.getElementById("searchResult").innerHTML = `
+                <div class="form-group">
+                    <label for="updateTeacherName">Teacher Name:</label>
+                    <input type="text" id="updateTeacherName" value="${teacherData.name}" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateDob">Date of Birth:</label>
+                    <input type="date" id="updateDob" value="${teacherData.dob}" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateAddress">Address:</label>
+                    <textarea id="updateAddress" rows="3" required>${teacherData.address}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="updateBranch">Branch:</label>
+                    <input type="text" id="updateBranch" value="${teacherData.branch}" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateDateOfJoining">Date of Joining:</label>
+                    <input type="date" id="updateDateOfJoining" value="${teacherData.dateOfJoining}" required>
+                </div>
+                <div class="form-group">
+                    <button class="update-btn" onclick="updateTeacher()">Update Teacher</button>
+                </div>
+            `;
+        } else {
+            // Display a message if no teacher is found with the provided ID
+            document.getElementById("searchResult").innerHTML = "<p>No teacher found with the provided ID.</p>";
+        }
+    }
+
+    function updateTeacher() {
+        // Get updated values
+        var updatedName = document.getElementById("updateTeacherName").value;
+        var updatedDob = document.getElementById("updateDob").value;
+        var updatedAddress = document.getElementById("updateAddress").value;
+        var updatedBranch = document.getElementById("updateBranch").value;
+        var updatedDateOfJoining = document.getElementById("updateDateOfJoining").value;
+
+        // Update teacher data submission logic here (for example, using AJAX to send data to server)
+
+        // Show success message
+        alert("Teacher updated successfully!");
+
+        // Clear input fields
+        document.getElementById("updateTeacherName").value = "";
+        document.getElementById("updateDob").value = "";
+        document.getElementById("updateAddress").value = "";
+        document.getElementById("updateBranch").value = "";
+        document.getElementById("updateDateOfJoining").value = "";
+    }
+
+    function searchDeleteTeacher() {
+        var teacherId = document.getElementById("deleteTeacherId").value;
+
+        // Simulated teacher data - replace this with your backend logic to fetch actual teacher data
+        var teacherData = {
+            teacherId: "1",
+            name: "John Doe",
+            dob: "1990-01-01",
+            address: "123 Main Street",
+            branch: "Computer Science",
+            dateOfJoining: "2020-01-01"
+        };
+
+        if (teacherId === teacherData.teacherId) {
+            // Display teacher details if the teacher ID matches
+            document.getElementById("deleteSearchResult").innerHTML = `
+                <p><strong>Teacher ID:</strong> ${teacherData.teacherId}</p>
+                <p><strong>Name:</strong> ${teacherData.name}</p>
+                <p><strong>Date of Birth:</strong> ${teacherData.dob}</p>
+                <p><strong>Address:</strong> ${teacherData.address}</p>
+                <p><strong>Branch:</strong> ${teacherData.branch}</p>
+                <p><strong>Date of Joining:</strong> ${teacherData.dateOfJoining}</p>
+                <button onclick="deleteTeacher()">Delete Teacher</button>
+            `;
+        } else {
+            // Display a message if no teacher is found with the provided ID
+            document.getElementById("deleteSearchResult").innerHTML = "<p>No teacher found with the provided ID.</p>";
+        }
+    }
+
+    function deleteTeacher() {
+        var teacherId = document.getElementById("deleteTeacherId").value;
+
+        // Simulated deletion logic - replace this with your backend logic to delete the teacher
+        var teacherData = {
+            teacherId: "1",
+            name: "John Doe",
+            dob: "1990-01-01",
+            address: "123 Main Street",
+            branch: "Computer Science",
+            dateOfJoining: "2020-01-01"
+        };
+
+        if (teacherId === teacherData.teacherId) {
+            // Perform deletion logic here (for example, using AJAX to send data to server)
+
+            // Show success message
+            alert("Teacher deleted successfully!");
+
+            // Clear search field and delete search result
+            document.getElementById("deleteTeacherId").value = "";
+            document.getElementById("deleteSearchResult").innerHTML = "";
+        } else {
+            // Display a message if no teacher is found with the provided ID
+            alert("No teacher found with the provided ID.");
+        }
+    }
+
+    function confirmLogout() {
+        return confirm("You are logging out.");
+    }
+</script>
+
+<footer class="footer">
+  <div class="affiliation">
+    <img src="karnataka.png" alt="Karnataka Affiliation">
+    <p>Department of Technical Education, Karnataka</p>
+  </div>
+  <div class="contact-info">
+    <p>Dr. TMA Pai Polytechnic</p>
+    <p>MIT Campus Eshwar Nagar Manipal 576104, Karnataka</p>
+    <p>Email:manipal.polytech@gmail.com</p>
+    <p>Phone: 9901476678</p>
+    <p> &copy; 2024 College Name. All rights reserved</p>
+
+  </div>
+  <div class="social-links">
+    <a href="https://www.instagram.com/tmapaipolytechnic/" target="_blank"><img src="instalogo.jpg" alt="Instagram"></a>
+    <a href="https://www.facebook.com/p/DrT-M-A-Pai-Polytechnic-Manipal-100066598946326/" target="_blank"><img src="facebooklogo.png" alt="Facebook"></a>
+    <a href="https://www.linkedin.com/company/drtmapaipolytechnic" target="_blank"><img src="linkedinlogo.jpg" alt="LinkedIn"></a>
+  </div>
+</footer>
+
+</body>
+</html>
